@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bunk Matrix | Smart Attendance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="particles-background"></div>
+    <div class="custom-cursor" id="customCursor"></div>
+
+    <main class="dashboard-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1 class="glitch" data-text="BUNK MATRIX">BUNK MATRIX</h1>
+            <p class="subtitle">Smart Attendance Calculator</p>
+        </header>
+
+        <div class="glass-grid">
+            <!-- Left Column: Inputs & Stats -->
+            <section class="card input-section fade-in">
+                <h2>Live Stats</h2>
+                <div class="input-group">
+                    <label for="totalClasses">Total Classes</label>
+                    <input type="number" id="totalClasses" min="0" placeholder="0" />
+                </div>
+                <div class="input-group">
+                    <label for="attendedClasses">Attended Classes</label>
+                    <input type="number" id="attendedClasses" min="0" placeholder="0" />
+                </div>
+                
+                <div class="ai-trigger-wrapper">
+                    <button id="aiTriggerBtn" class="ai-trigger-btn" type="button">
+                        <span>✨</span> AI Prediction Popup
+                    </button>
+                    <div class="prediction-panel" id="predictionPanel">
+                        <h3>Auto Predictor</h3>
+                        <div class="predictor-controls">
+                            <span>If I bunk next</span>
+                            <input type="number" id="predictBunk" min="1" max="20" value="1">
+                            <span>classes</span>
+                        </div>
+                        <div class="prediction-result" id="predictionResult">
+                            Predicted: <span class="neon-text fade" id="predictedPercent">--%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Center Column: Circular Progress -->
+            <section class="card progress-section fade-in delay-1">
+                <div class="radial-progress-container">
+                    <div class="glow-backdrop" id="glowBackdrop"></div>
+                    <svg class="progress-ring" width="250" height="250">
+                        <defs>
+                            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="6" result="blur" />
+                                <feMerge>
+                                    <feMergeNode in="blur" />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+                            <linearGradient id="gradient-green" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#00f0ff" />
+                                <stop offset="100%" stop-color="#00ff88" />
+                            </linearGradient>
+                            <linearGradient id="gradient-yellow" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ffcc00" />
+                                <stop offset="100%" stop-color="#ff6a00" />
+                            </linearGradient>
+                            <linearGradient id="gradient-red" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ff0055" />
+                                <stop offset="100%" stop-color="#ff0000" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Background ring -->
+                        <circle class="progress-ring__background" stroke="#1f2335" stroke-width="15" fill="transparent" r="100" cx="125" cy="125"/>
+                        <!-- Foreground ring -->
+                        <circle class="progress-ring__circle" id="progressCircle" stroke="url(#gradient-green)" stroke-width="15" fill="transparent" r="100" cx="125" cy="125" filter="url(#glow)" stroke-linecap="round"/>
+                    </svg>
+                    <div class="percentage-display">
+                        <span id="percentageText">0</span><span class="percent-sign">%</span>
+                    </div>
+                </div>
+                
+                <div class="status-container" id="statusContainer">
+                    <h3 id="statusMessage" class="status-safe">Awaiting Input...</h3>
+                    <p id="bunkSuggestion" class="bunk-suggestion">Enter your classes to begin.</p>
+                </div>
+            </section>
+
+            <!-- Right Column: Bunk Planner -->
+            <section class="card planner-section fade-in delay-2">
+                <h2>Bunk Planner Pro</h2>
+                <div class="planner-info">
+                    <p class="planner-subtitle">Simulate actual schedule (+6 classes/day)</p>
+                </div>
+                <div class="planner-legend">
+                    <span class="legend-item"><div class="dot attended"></div> Attended</span>
+                    <span class="legend-item"><div class="dot bunked"></div> Bunked</span>
+                    <span class="legend-item"><div class="dot neutral"></div> Unset</span>
+                </div>
+                
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <button id="prevMonthBtn" class="nav-btn">←</button>
+                        <h3 id="calendarMonthYear" class="calendar-month-year">Month Year</h3>
+                        <button id="nextMonthBtn" class="nav-btn">→</button>
+                    </div>
+                    <div class="calendar-weekdays">
+                        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                    </div>
+                    <div id="calendarDays" class="calendar-days transition-wrapper">
+                        <!-- JS will fill dates here -->
+                    </div>
+                </div>
+
+                <div class="planner-summary">
+                    <button id="applyPlannerBtn" class="neon-btn">Apply to Tracker</button>
+                    <button id="resetPlannerBtn" class="ghost-btn">Reset</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="app-footer fade-in delay-2">
+        <div class="signature-container" id="signatureContainer">
+            <div class="signature-base">Developed by Mohd Armaan Tak</div>
+            <div class="signature-spotlight" id="signatureSpotlight">👨‍💻 Developed by Mohd Armaan Tak</div>
+            <div class="signature-revealed" id="signatureRevealed">👨‍💻 Developed by Mohd Armaan Tak</div>
+        </div>
+    </footer>
+
+    <div id="floatingTooltip" class="floating-tooltip"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
