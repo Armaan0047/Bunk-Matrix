@@ -3,7 +3,7 @@
 A futuristic, interactive attendance & bunk planning platform designed for college students.
 
 🌐 **Live Demo:**
-👉 https://codewitharmaan.netlify.app/
+👉 https://codewitharmaan.netlify.app/](https://bunk-matrix-armaan.netlify.app/
 
 ---
 
